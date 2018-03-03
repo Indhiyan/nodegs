@@ -4,29 +4,34 @@ var bodyParser = require("body-parser");
 
 /* User Schema */
 var UserSchema = mongoose.Schema({
-	// name: {
-	// 	type: String,
-	// 	index: true,
-	// 	required: true
-	// },
-	first_name: {
-		type: String
+	name: {
+		type: String,
+		index: true,
+		required: true
 	},
-	last_name: {
-		type: String
+	email: {
+		type: String,
+		email: true,
+		required: true
 	},
-	// confirmPassword: {
-	// 	type: String
-	// }
+	password: {
+		type: String,
+		email: true,
+		required: true
+	}
 });
 
-var userModel = mongoose.model("User", UserSchema);
+var userModel = module.exports = mongoose.model("User", UserSchema);
 
-module.exports.createUser = function(data) {
-	var deferred = Q.defer();
-	console.log("req", data);
+module.exports.addUser = function(data) {
+
+	var deferred = Q.defer();	
 	var user = new userModel(data);
+
 	user.save(function (err, result) {
+
+		// Use resolve and reject when using .then and .catch in controller
+
         if (err) {           
             deferred.resolve({status: 'error'});
         } else {
@@ -37,4 +42,21 @@ module.exports.createUser = function(data) {
     return deferred.promise;
 
 };
-// module.exports = userModel;
+
+module.exports.listUser = function(data) {
+
+	var deferred = Q.defer();	
+	var user = new userModel();
+
+	user.find({},function (err, list) {
+		console.log("list", list);
+        // if (err) {           
+        //     deferred.resolve({status: 'error'});
+        // } else {
+        // 	deferred.resolve({ status: 'ok', list: list});
+        // }
+                
+    });
+    return deferred.promise;
+
+};

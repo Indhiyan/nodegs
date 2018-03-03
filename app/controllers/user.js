@@ -3,32 +3,40 @@ var mongoose = require('../config/db');
 var userModel = require('../models/user');
 var Q = require('q');
 
-var userController = function(req, res){
+var userController = function(req, res) {
 
-	this.createUser = function(req, res){
-		// console.log("userModel",req.body);
-		Q(userModel.createUser(req.body))
-		// .then(function (data) {
-		//     // Do something with data
+	this.addUser = function(req, res) {
+
+		// We can also use, check Model - addUser
+		// Q(userModel.addUser(req.body))
+		// .then(function (result) {
+		//     console.log("res",result);
 		// })
-		// .catch(function (error) {
-		//     // Handle any error from all above steps
-		// })
-		.done(function(result){
-			console.log("userModelRES",result);
-			if(result['status'] == 'ok'){
+		// .catch(function (err) {
+		//     console.log("err",err);
+		// });
+
+		Q(userModel.addUser(req.body))
+		.done(function (result) {
+	    	if (result['status'] == 'ok') {
 				res.redirect('list');
-			}else{
-				res.send(err);
+			} else {
+				res.send('Model/Database error');
 			}
-		})
-		// var user = new userModel(req.body);
-		// user.save(function (err) {
-	 //        if (err) {
-	 //            res.send(err);
-	 //        }
-	 //        res.redirect('list');
-	 //    });
+		});
+	},
+
+	this.listUser = function(req, res) {
+
+		Q(userModel.listUser())
+		.done(function (result) {
+			console.log("result", result);
+	    	if (result['status'] == 'ok') {
+				res.redirect('list');
+			} else {
+				res.send('Model/Database error');
+			}
+		});
 	}
 }
 
