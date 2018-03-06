@@ -2,14 +2,20 @@ include ../includes/header.pug
 .container.form-register.col-md-5.col-sm-12.col-xs-12
 	.col-md-12.col-sm-12.col-xs-12.form-register-control
 		form(action='/user/add' method='post')
-			h2 Sign up / Register
+			if !userDocs._id
+				h2 Sign up / Register
+			else
+				h2 Edit User
 			.form-group
 				label(for='name') Name:
-				input#name.form-control(type='text' name='name' placeholder='Enter name')
+				input#name.form-control(type='text' name='name' placeholder='Enter name' value=(userDocs._id ? userDocs.name : ''))
 			.form-group
 				label(for='email') Email address:
-				input#email.form-control(type='email' name='email' placeholder='Enter email')
+				input#email.form-control(type='text' name='email' placeholder='Enter email' value=(userDocs._id ? userDocs.email : ''))
 			.form-group
 				label(for='password') Password:
-				input#password.form-control(type='password' name='password' placeholder='Enter password')
-			button.btn.btn-primary(type='submit') Submit
+				input#password.form-control(type='password' name='password' placeholder='Enter password' value=(userDocs._id ? userDocs.password : ''))
+			input.form-control(type='hidden' name='hidden_user_id' value=(userDocs._id ? userDocs._id : ''))
+			button.btn.btn-primary.btn-moveunit(type='submit') Submit
+			a(href='list')
+				button.btn(type='button') Cancel

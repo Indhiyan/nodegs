@@ -15,7 +15,6 @@ var userController = function(req, res) {
 		// .catch(function (err) {
 		//     console.log("err",err);
 		// });
-
 		Q(userModel.addUser(req.body))
 		.done(function (result) {
 	    	if (result['status'] == 'ok') {
@@ -26,13 +25,32 @@ var userController = function(req, res) {
 		});
 	},
 
+	this.getUser = function(req, res) {
+		
+		Q(userModel.getUser(req.params.id))
+		.done(function (result) {
+			// console.log("result", result);
+	    	if (result['status'] == 'ok') {
+	    		var userDocs = result['userDocs'];
+	    		console.log("userDocs", typeof userDocs);
+				// res.redirect('add');
+				// res.redirect('/user/add');
+				res.render('user/add', {userDocs: userDocs});
+
+			} else {
+				res.send('Model/Database error');
+			}
+		});
+	},
+
 	this.listUser = function(req, res) {
 
 		Q(userModel.listUser())
 		.done(function (result) {
-			console.log("result", result);
 	    	if (result['status'] == 'ok') {
-				res.redirect('list');
+	    		var listData = result['userDocs'];
+	    		// console.log("listData", listData);
+				res.render('user/list', {listData: listData});
 			} else {
 				res.send('Model/Database error');
 			}

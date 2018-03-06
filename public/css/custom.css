@@ -1,3 +1,22 @@
 .form-register .form-register-control{
 	margin-top: 75px;
 }
+.form-register-control .btn-moveunit{
+	margin-right: 5px;
+}
+.listdocs tr th, .listdocs tr td .listdoc-btnaction, .list .adddocbtn, .list h2{
+	text-transform: capitalize;
+}
+.listdocs tr th, .listdocs tr td{
+	vertical-align: middle;
+}
+.listdocs tr td .listdoc-btnaction{	
+	margin-right: 5px;
+}
+.list .adddoc{
+	text-align: right;
+	margin-bottom: 10px;
+}
+.container.list{
+	margin-top: 40px;
+}

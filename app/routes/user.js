@@ -6,18 +6,29 @@ var userController = require('../controllers/user');
 
 // Home page route.
 router.get('/list', function (req, res) {
-	res.render('user/list');
-	// userController.listUser(req, res);
+	// res.render('user/list');
+	userController.listUser(req, res);
 });
 
 // Add page route.
 router.get('/add', function (req, res) {
-	res.render('user/add');
+	res.render('user/add', {userDocs: ''});
 });
 
 // Add page route.
 router.post('/add', function (req, res) {
 	userController.addUser(req, res);
+});
+
+// Edit page route.
+router.get('/:id', function (req, res) {
+	// res.render('user/add');
+	userController.getUser(req, res);
+});
+
+router.post('/:id', function (req, res) {
+	userController.addUser(req, res);
+	// userController.editUser(req, res);
 });
 
 
