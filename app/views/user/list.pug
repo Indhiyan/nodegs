@@ -1,4 +1,4 @@
-include ../includes/header.pug
+include ../header.pug
 .container.col-md-10.col-sm-12.col-xs-12.list
 	.col-md-12.col-sm-12.col-xs-12
 		h2 users
@@ -21,7 +21,7 @@ include ../includes/header.pug
 					td= val.email
 					td= val.password
 					td
-						a(href=val._id)
+						a(href='edit/'+val._id)
 							button.btn.listdoc-btnaction(type='button') edit
 						a
 							button.btn.listdoc-btnaction(type='button') delete

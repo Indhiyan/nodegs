@@ -1,4 +1,4 @@
-include ../includes/header.pug
+include ../header.pug
 .container.form-register.col-md-5.col-sm-12.col-xs-12
 	.col-md-12.col-sm-12.col-xs-12.form-register-control
 		form(action='/user/add' method='post')
@@ -17,5 +17,5 @@ include ../includes/header.pug
 				input#password.form-control(type='password' name='password' placeholder='Enter password' value=(userDocs._id ? userDocs.password : ''))
 			input.form-control(type='hidden' name='hidden_user_id' value=(userDocs._id ? userDocs._id : ''))
 			button.btn.btn-primary.btn-moveunit(type='submit') Submit
-			a(href='list')
+			a(href='/user/list')
 				button.btn(type='button') Cancel
