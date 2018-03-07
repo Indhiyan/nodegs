@@ -39,8 +39,7 @@ module.exports.addUser = function(userReqData) {
 	            deferred.resolve({status: 'error'});
 	        } else {
 	        	deferred.resolve({ status: 'ok', userDocs: userDocs});
-	        }
-	                
+	        }	                
 	    });
 	} else {
 		
@@ -52,8 +51,7 @@ module.exports.addUser = function(userReqData) {
 	            deferred.resolve({status: 'error'});
 	        } else {
 	        	deferred.resolve({ status: 'ok', userDocs: userDocs});
-	        }
-	                
+	        }	                
 	    });
 	}
 
@@ -65,30 +63,40 @@ module.exports.getUser = function(id) {
 
 	var deferred = Q.defer();
 	userModel.findById(id, function (err, userDocs) {
-
         if (err) {           
             deferred.resolve({status: 'error'});
         } else {
         	deferred.resolve({ status: 'ok', userDocs: userDocs});
-        }
-                
+        }                
     });
-    return deferred.promise;
 
+    return deferred.promise;
 };
 
 module.exports.listUser = function() {
 
-	var deferred = Q.defer();	
-
+	var deferred = Q.defer();
 	userModel.find({}, function (err, userDocs) {
         if (err) {           
             deferred.resolve({status: 'error'});
         } else {
         	deferred.resolve({ status: 'ok', userDocs: userDocs});
-        }
-                
+        }                
     });
-    return deferred.promise;
 
+    return deferred.promise;
+};
+
+module.exports.deleteUser = function(id) {
+	
+	var deferred = Q.defer();		
+	userModel.findByIdAndRemove(id, function (err, listData) {
+        if (err) {           
+            deferred.resolve({status: 'error'});
+        } else {
+        	deferred.resolve({ status: 'ok', listData: ''});
+        }                
+    });
+
+    return deferred.promise;
 };

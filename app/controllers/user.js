@@ -38,7 +38,7 @@ var userController = function(req, res) {
 				res.send('Model/Database error');
 			}
 		});
-	},
+	},	
 
 	this.listUser = function(req, res) {
 
@@ -47,6 +47,19 @@ var userController = function(req, res) {
 	    	if (result['status'] == 'ok') {
 	    		var listData = result['userDocs'];
 				res.render('user/list', {listData: listData});
+			} else {
+				res.send('Model/Database error');
+			}
+		});
+	},
+
+	this.deleteUser = function(req, res) {
+		
+		Q(userModel.deleteUser(req.params.id))
+		.done(function (result) {
+			console.log("result======result", result);
+	    	if (result['status'] == 'ok') {	    		
+				res.redirect('/user/list');
 			} else {
 				res.send('Model/Database error');
 			}

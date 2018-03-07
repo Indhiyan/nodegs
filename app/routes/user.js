@@ -29,10 +29,10 @@ router.post('/edit/:id', function (req, res) {
 	userController.addUser(req, res);
 });
 
-// // Delete user
-// router.get('/:id', function (req, res) {
-// 	userController.getUser(req, res);
-// });
+// Delete user
+router.get('/delete/:id', function (req, res) {
+	userController.deleteUser(req, res);
+});
 
 // 400 page route.
 router.get('/*', function (req, res) {

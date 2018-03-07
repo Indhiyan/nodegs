@@ -4,7 +4,7 @@
 .form-register-control .btn-moveunit{
 	margin-right: 5px;
 }
-.listdocs tr th, .listdocs tr td .listdoc-btnaction, .list .adddocbtn, .list h2{
+.listdocs tr th, .listdocs tr td .listdoc-btnaction, .list .adddocbtn, .list h2, .listdocs tr.no-records-found{
 	text-transform: capitalize;
 }
 .listdocs tr th, .listdocs tr td{

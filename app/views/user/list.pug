@@ -5,23 +5,28 @@ include ../header.pug
 		div.adddoc
 			a(href='/user/add')
 				button.btn.adddocbtn(type='button') add
-		table.table.table-striped.listdocs
-			thead
-				tr
-					th id
-					th name
-					th email
-					th password
-					th action
-			tbody
-			each val, index in listData
-				tr
-					td= val._id
-					td= val.name
-					td= val.email
-					td= val.password
-					td
-						a(href='edit/'+val._id)
-							button.btn.listdoc-btnaction(type='button') edit
-						a
-							button.btn.listdoc-btnaction(type='button') delete
+		div.table-responsive
+			table.table.table-hover.listdocs
+				thead.thead-dark
+					tr
+						th id
+						th name
+						th email
+						th password
+						th action
+				tbody
+				if listData.length > 0
+					each val, index in listData
+						tr
+							td= val._id
+							td= val.name
+							td= val.email
+							td= val.password
+							td
+								a(href='edit/'+val._id)
+									button.btn.listdoc-btnaction(type='button') edit
+								a(href='delete/'+val._id)
+									button.btn.listdoc-btnaction(type='button') delete
+				else
+					tr.no-records-found
+						td(colspan='5') no user(s) found
