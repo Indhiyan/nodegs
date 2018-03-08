@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require("body-parser");
-var userModel = require('../models/user');
+// var bodyParser = require("body-parser");
+// var userModel = require('../models/user');
 var userController = require('../controllers/user');
 
 // List all users

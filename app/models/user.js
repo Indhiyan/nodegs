@@ -100,3 +100,21 @@ module.exports.deleteUser = function(id) {
 
     return deferred.promise;
 };
+
+module.exports.login = function(userReqData) {
+	
+	var deferred = Q.defer();
+	var userData = { email: userReqData.email, password: userReqData.password }	
+
+	userModel.find(userData, function (err, userDocs) {
+		console.log("userDocs", userDocs);
+        if (err) {           
+            deferred.resolve({status: 'error'});
+        } else {
+        	deferred.resolve({ status: 'ok', userDocs: userDocs});
+        }	                
+    });
+
+    return deferred.promise;
+
+};

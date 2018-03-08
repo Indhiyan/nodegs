@@ -64,6 +64,19 @@ var userController = function(req, res) {
 				res.send('Model/Database error');
 			}
 		});
+	},
+
+	this.login = function(req, res) {
+
+		Q(userModel.login(req.body))
+		.done(function (result) {
+			var loggedUser = result['userDocs'];
+	    	if (result['status'] == 'ok' && loggedUser.length > 0) {
+				res.redirect('/user/list');
+			} else {
+				res.send('Incorrect email or password!');
+			}
+		});
 	}
 }
 

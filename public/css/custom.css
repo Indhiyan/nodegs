@@ -1,3 +1,9 @@
+.custom-form .custom-form-control{
+	margin-top: 75px;
+}
+.custom-form-control .btn-moveunit{
+	margin-right: 5px;
+}
 .form-register .form-register-control{
 	margin-top: 75px;
 }
@@ -19,4 +25,7 @@
 }
 .container.list{
 	margin-top: 40px;
+}
+.add-bottom-space{
+	margin-bottom: 10px;
 }
