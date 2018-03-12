@@ -1,5 +1,43 @@
-doctype html
-head
-  meta(charset='utf-8')
-  title
-p list user
+include ../header.pug
+.container.col-md-10.col-sm-12.col-xs-12.list
+	.col-md-12.col-sm-12.col-xs-12
+		- var messages = getMessages()
+		if messages.success
+			.alert.alert-success.alert-dismissible
+				button.close(type='button' data-dismiss='alert') &times;
+				each msg in messages.success
+					.info= msg
+		if messages.error
+			.alert.alert-danger.alert-dismissible
+				button.close(type='button' data-dismiss='alert') &times;
+				each msg in messages.error
+					.info= msg
+		h2 users
+		div.adddoc
+			a(href='/user/add')
+				button.btn.adddocbtn(type='button') add
+		div.table-responsive
+			table.table.table-hover.listdocs
+				thead.thead-dark
+					tr
+						th id
+						th name
+						th email
+						th password
+						th action
+				tbody
+				if listData.length > 0
+					each val, index in listData
+						tr
+							td= val._id
+							td= val.name
+							td= val.email
+							td= val.password
+							td
+								a(href='edit/'+val._id)
+									button.btn.listdoc-btnaction(type='button') edit
+								a(href='delete/'+val._id)
+									button.btn.listdoc-btnaction(type='button') delete
+				else
+					tr.no-records-found
+						td(colspan='5') no user(s) found

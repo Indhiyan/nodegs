@@ -1,24 +1,37 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require("body-parser");
-var userModel = require('../models/user');
+// var bodyParser = require("body-parser");
+// var userModel = require('../models/user');
 var userController = require('../controllers/user');
 
-// Home page route.
+// List all users
 router.get('/list', function (req, res) {
-  res.render('user/list');
+	userController.listUser(req, res);
 });
 
-// Add page route.
+// Add form
 router.get('/add', function (req, res) {
-
-	res.render('user/add');
+	res.render('user/add', {userDocs: ''});
 });
 
-// Add page route.
+// Add new user
 router.post('/add', function (req, res) {
+	userController.addUser(req, res);
+});
 
-	userController.createUser(req, res);
+// Edit user form
+router.get('/edit/:id', function (req, res) {
+	userController.getUser(req, res);
+});
+
+// Update existing user
+router.post('/edit/:id', function (req, res) {
+	userController.addUser(req, res);
+});
+
+// Delete user
+router.get('/delete/:id', function (req, res) {
+	userController.deleteUser(req, res);
 });
 
 // 400 page route.

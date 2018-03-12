@@ -1,0 +1,23 @@
+include header.pug
+.container.custom-form.col-md-5.col-sm-12.col-xs-12.text-center
+	.col-md-12.col-sm-12.col-xs-12.custom-form-control
+		form.form-signin(method='POST')
+			img.mb-4(src='https://getbootstrap.com/assets/brand/bootstrap-solid.svg' alt='' width='72' height='72')
+			h1.h3.mb-3.font-weight-normal Please sign in
+			- var messages = getMessages()
+			if messages.success
+				.alert.alert-success.alert-dismissible
+					button.close(type='button' data-dismiss='alert') &times;
+					each msg in messages.success
+						.info= msg
+			if messages.error
+				.alert.alert-danger.alert-dismissible
+					button.close(type='button' data-dismiss='alert') &times;
+					each msg in messages.error
+						.info= msg
+			label.sr-only(for='inputEmail') Email address
+			input#inputEmail.form-control.add-bottom-space(type='email' placeholder='Email address' autofocus='' name='email')
+			label.sr-only(for='inputPassword') Password
+			input#inputPassword.form-control.add-bottom-space(type='password' placeholder='Password' name='password')
+			button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+			p.mt-5.mb-3.text-muted &copy; 2018
