@@ -4,6 +4,17 @@ include header.pug
 		form.form-signin(method='POST')
 			img.mb-4(src='https://getbootstrap.com/assets/brand/bootstrap-solid.svg' alt='' width='72' height='72')
 			h1.h3.mb-3.font-weight-normal Please sign in
+			- var messages = getMessages()
+			if messages.success
+				.alert.alert-success.alert-dismissible
+					button.close(type='button' data-dismiss='alert') &times;
+					each msg in messages.success
+						.info= msg
+			if messages.error
+				.alert.alert-danger.alert-dismissible
+					button.close(type='button' data-dismiss='alert') &times;
+					each msg in messages.error
+						.info= msg
 			label.sr-only(for='inputEmail') Email address
 			input#inputEmail.form-control.add-bottom-space(type='email' placeholder='Email address' autofocus='' name='email')
 			label.sr-only(for='inputPassword') Password

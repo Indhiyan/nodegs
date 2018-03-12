@@ -13,8 +13,12 @@
     "body-parser": "^1.18.2",
     "connect": "^3.6.6",
     "express": "^4.16.2",
+    "express-flash-messages": "^0.1.1",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.0.3",
     "html": "^1.0.0",
     "mongoose": "^5.0.7",
+    "passport": "^0.4.0",
     "pug": "^2.0.0-rc.4",
     "q": "^1.5.1"
   },

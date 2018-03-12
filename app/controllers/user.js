@@ -1,7 +1,11 @@
 var bodyParser = require("body-parser");
+var flash = require('express-flash-messages');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var mongoose = require('../config/db');
 var userModel = require('../models/user');
 var Q = require('q');
+var expressValidator = require('express-validator');
 
 var userController = function(req, res) {
 
@@ -15,14 +19,37 @@ var userController = function(req, res) {
 		// .catch(function (err) {
 		//     console.log("err",err);
 		// });
-		Q(userModel.addUser(req.body))
-		.done(function (result) {
-	    	if (result['status'] == 'ok') {
+
+		req.checkBody('name', 'Name is required').notEmpty();
+		req.checkBody('email', 'Email is required').notEmpty();
+		req.checkBody('email', 'Incorrect Email').isEmail();
+		req.checkBody('password', 'Password is required').notEmpty();
+
+		var errors = req.validationErrors();
+
+		if (errors) {
+	      	req.session.errors = errors;
+	      	req.session.success = false;
+	      	console.log("ERRORS=======", req.session);
+	      	res.render('user/add', { success: req.session.success, errors: req.session.errors , userDocs:''});
+	   	} else {
+		    req.session.success = true;
+
+		    Q(userModel.addUser(req.body))
+			.done(function (result) {
+		    	if (result['status'] == 'ok') {
+		    		if (!req.body.hidden_user_id)
+		    			req.flash('success', 'User created successfully!');
+		    		else
+		    			req.flash('success', 'User updated successfully!');
+				} else {
+					req.flash('error', 'Model/Database error! Please try again');
+				}
 				res.redirect('list');
-			} else {
-				res.send('Model/Database error');
-			}
-		});
+			});
+	   	}
+
+		
 	},
 
 	this.getUser = function(req, res) {
@@ -31,11 +58,10 @@ var userController = function(req, res) {
 		.done(function (result) {
 	    	if (result['status'] == 'ok') {
 	    		var userDocs = result['userDocs'];
-	    		console.log("userDocs", typeof userDocs);
 				res.render('user/add', {userDocs: userDocs});
-
 			} else {
-				res.send('Model/Database error');
+				res.render('user/add', {userDocs: ''});
+				req.flash('error', 'Model/Database error! Please try again');
 			}
 		});
 	},	
@@ -46,9 +72,11 @@ var userController = function(req, res) {
 		.done(function (result) {
 	    	if (result['status'] == 'ok') {
 	    		var listData = result['userDocs'];
+	    		// req.flash('success', '');
 				res.render('user/list', {listData: listData});
 			} else {
-				res.send('Model/Database error');
+				req.flash('error', 'Model/Database error! Please try again');
+				res.render('user/list', {listData: ''});
 			}
 		});
 	},
@@ -57,12 +85,12 @@ var userController = function(req, res) {
 		
 		Q(userModel.deleteUser(req.params.id))
 		.done(function (result) {
-			console.log("result======result", result);
-	    	if (result['status'] == 'ok') {	    		
-				res.redirect('/user/list');
+	    	if (result['status'] == 'ok') {	    
+	    		req.flash('error', 'User deleted successfully!');		
 			} else {
-				res.send('Model/Database error');
+				req.flash('error', 'Model/Database error! Please try again');
 			}
+			res.redirect('/user/list');
 		});
 	},
 
@@ -72,9 +100,12 @@ var userController = function(req, res) {
 		.done(function (result) {
 			var loggedUser = result['userDocs'];
 	    	if (result['status'] == 'ok' && loggedUser.length > 0) {
+	    		req.flash('success', 'You have successfully logged!');
 				res.redirect('/user/list');
 			} else {
-				res.send('Incorrect email or password!');
+				req.flash('error', 'Incorrect email or password!');
+				res.redirect('/login');
+				// res.send('Incorrect email or password!');
 			}
 		});
 	}

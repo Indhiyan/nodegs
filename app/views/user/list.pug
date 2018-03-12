@@ -1,6 +1,17 @@
 include ../header.pug
 .container.col-md-10.col-sm-12.col-xs-12.list
 	.col-md-12.col-sm-12.col-xs-12
+		- var messages = getMessages()
+		if messages.success
+			.alert.alert-success.alert-dismissible
+				button.close(type='button' data-dismiss='alert') &times;
+				each msg in messages.success
+					.info= msg
+		if messages.error
+			.alert.alert-danger.alert-dismissible
+				button.close(type='button' data-dismiss='alert') &times;
+				each msg in messages.error
+					.info= msg
 		h2 users
 		div.adddoc
 			a(href='/user/add')
