@@ -29,8 +29,7 @@ var userController = function(req, res) {
 
 		if (errors) {
 	      	req.session.errors = errors;
-	      	req.session.success = false;
-	      	console.log("ERRORS=======", req.session);
+	      	req.session.success = false;	      	
 	      	res.render('user/add', { success: req.session.success, errors: req.session.errors , userDocs:''});
 	   	} else {
 		    req.session.success = true;
@@ -48,7 +47,6 @@ var userController = function(req, res) {
 				res.redirect('list');
 			});
 	   	}
-
 		
 	},
 
@@ -72,7 +70,6 @@ var userController = function(req, res) {
 		.done(function (result) {
 	    	if (result['status'] == 'ok') {
 	    		var listData = result['userDocs'];
-	    		// req.flash('success', '');
 				res.render('user/list', {listData: listData});
 			} else {
 				req.flash('error', 'Model/Database error! Please try again');
@@ -105,7 +102,6 @@ var userController = function(req, res) {
 			} else {
 				req.flash('error', 'Incorrect email or password!');
 				res.redirect('/login');
-				// res.send('Incorrect email or password!');
 			}
 		});
 	}

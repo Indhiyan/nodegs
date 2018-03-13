@@ -6,6 +6,8 @@ var flash = require('express-flash-messages');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
+var passport = require('passport');
+LocalStrategy = require('passport-local').Strategy;
 
 var indexRoute = require('./app/routes');
 var userRoute = require('./app/routes/user');
@@ -45,6 +47,39 @@ app.use(session({
 // }
 app.use(flash());
 app.use(expressValidator());
+
+/* Login authentication middleware - Start */
+app.use(passport.initialize());
+app.use(passport.session());
+/* Login authentication middleware - Start */
+
+// passport.serializeUser(function(user, done) {
+//   	done(null, user.id);
+// });
+
+// passport.deserializeUser(function(id, done) {
+//   	userModel.findById(id, function(err, user) {
+//     	done(err, user);
+//   	});
+// });
+
+// passport.use(new LocalStrategy({
+// 	    usernameField: 'email',
+// 	    passwordField: 'password'
+// 	},
+//   	function(username, password, done) {
+// 	    userModel.findOne({ username: username }, function(err, user) {
+// 	      	if (err) { return done(err); }
+// 	      	if (!user) {
+// 	        	return done(null, false, { message: 'Incorrect username.' });
+// 	      	}
+// 	      	if (!user.validPassword(password)) {
+// 	        	return done(null, false, { message: 'Incorrect password.' });
+// 	      	}
+// 	      	return done(null, user);
+// 	    });
+//   	}
+// ));
 
 app.use('/', indexRoute);
 app.use('/user', userRoute);
