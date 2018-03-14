@@ -2,6 +2,11 @@
 var mongoose = require('../config/db');
 var Q = require('q');
 var bodyParser = require("body-parser");
+var flash = require('express-flash-messages');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 /* User Schema */
 var UserSchema = mongoose.Schema({
@@ -23,6 +28,40 @@ var UserSchema = mongoose.Schema({
 });
 
 var userModel =  mongoose.model("User", UserSchema);
+
+/* Login authentication - Start */
+
+passport.serializeUser(function(user, done) {
+  	done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  	userModel.findById(id, function(err, user) {
+    	done(err, user);
+  	});
+});
+
+passport.use(new LocalStrategy({
+	    usernameField: 'email',
+	    passwordField: 'password'
+	},
+
+  	function(username, password, done) {
+
+	    userModel.findOne({ email: username, password: password }, function(err, user) {
+	      	if (err) { return done(err); }
+	      	if (!user) {
+	        	return done(null, false, { message: 'Incorrect username or password.' });
+	      	}
+	      	// if (!user.validPassword(password)) {
+	       //  	return done(null, false, { message: 'Incorrect password.' });
+	      	// }
+	      	return done(null, user);
+	    });
+  	}
+));
+
+/* Login authentication - End */
 
 module.exports.addUser = function(userReqData) {
 	
@@ -106,8 +145,7 @@ module.exports.login = function(userReqData) {
 	var deferred = Q.defer();
 	var userData = { email: userReqData.email, password: userReqData.password }	
 
-	userModel.find(userData, function (err, userDocs) {
-		console.log("userDocs", userDocs);
+	userModel.find(userData, function (err, userDocs) {		
         if (err) {           
             deferred.resolve({status: 'error'});
         } else {
@@ -118,3 +156,5 @@ module.exports.login = function(userReqData) {
     return deferred.promise;
 
 };
+
+module.exports.userModel = userModel;
