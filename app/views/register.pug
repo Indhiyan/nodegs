@@ -22,5 +22,5 @@ include gateway-header.pug
 				input#password.form-control(type='password' name='password' placeholder='Enter password' value=(userDocs._id ? userDocs.password : ''))
 			input.form-control(type='hidden' name='hidden_user_id' value=(userDocs._id ? userDocs._id : ''))
 			button.btn.btn-primary.btn-moveunit(type='submit') Submit
-			a.btn-redirect(href='/user/list')
+			a.btn-redirect(href='/user/login')
 				button.btn.btn-warning(type='button') Sign in

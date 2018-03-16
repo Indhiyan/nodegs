@@ -9,7 +9,7 @@ var expressValidator = require('express-validator');
 
 var userController = function(req, res) {
 
-	this.addUser = function(req, res) {
+	this.addUser = function(req, res, gateway) {
 
 		// We can also use, check Model - addUser
 		// Q(userModel.addUser(req.body))
@@ -21,7 +21,7 @@ var userController = function(req, res) {
 		// });
 
 		req.checkBody('name', 'Name is required').notEmpty();
-		req.checkBody('email', 'Email is required').notEmpty();
+		// req.checkBody('email', 'Email is required').notEmpty();
 		req.checkBody('email', 'Incorrect Email').isEmail();
 		req.checkBody('password', 'Password is required').notEmpty();
 
@@ -29,8 +29,13 @@ var userController = function(req, res) {
 
 		if (errors) {
 	      	req.session.errors = errors;
-	      	req.session.success = false;	      	
-	      	res.render('user/add', { success: req.session.success, errors: req.session.errors , userDocs:''});
+	      	req.session.success = false;
+	      	var renderTemplate = 'register';
+
+	      	if (gateway != 'register')	 
+	      		renderTemplate  = 'user/add';
+	      	
+	      	res.render(renderTemplate, { success: req.session.success, errors: req.session.errors , userDocs:''});
 	   	} else {
 		    req.session.success = true;
 

@@ -30,7 +30,7 @@ router.get('/register', function (req, res) {
 });
 
 router.post('/register', function (req, res) {
-   userController.addUser(req, res);
+   userController.addUser(req, res, 'register');
 });
 
 router.get('/logout', function(req, res){
