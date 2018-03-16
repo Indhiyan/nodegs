@@ -24,6 +24,15 @@ router.post('/login',
                                    successFlash: 'You have successfully logged!' })
 );
 
+// Login form
+router.get('/register', function (req, res) {
+    res.render('register', {userDocs: ''});
+});
+
+router.post('/register', function (req, res) {
+   userController.addUser(req, res, 'register');
+});
+
 router.get('/logout', function(req, res){
   	req.logout();
   	res.redirect('/user/login');

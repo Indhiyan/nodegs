@@ -63,9 +63,10 @@ passport.use(new LocalStrategy({
 
 /* Login authentication - End */
 
-module.exports.addUser = function(userReqData) {
+module.exports.addUser = function(req, res) {
 	
 	var deferred = Q.defer();
+	var userReqData = req.body;
 	var userData = { name: userReqData.name, email: userReqData.email, password: userReqData.password }	
 	var user = new userModel(userData);
 	
@@ -77,7 +78,16 @@ module.exports.addUser = function(userReqData) {
 	        if (err) {           
 	            deferred.resolve({status: 'error'});
 	        } else {
-	        	deferred.resolve({ status: 'ok', userDocs: userDocs});
+	        	
+	        	req.login(user, function(err, userDocs) {
+			        if (err) {
+			          // console.log(err);
+			        } else {
+			        	// console.log('SUCCESSS');
+			        }
+		        
+		      	});
+		      	deferred.resolve({ status: 'ok', userDocs: userDocs});
 	        }	                
 	    });
 	} else {
