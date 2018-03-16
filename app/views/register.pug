@@ -1,12 +1,12 @@
-include ../admin-header.pug
-.container.form-register.col-md-5.col-sm-12.col-xs-12
+include gateway-header.pug
+.container.form-register.register-page.col-md-5.col-sm-12.col-xs-12
 	.col-md-12.col-sm-12.col-xs-12.form-register-control
 		if errors
 			each error in errors
 				.alert.alert-danger.alert-dismissible
 					button.close(type='button' data-dismiss='alert') &times;
 					.info= error.msg
-		form(action='/user/add' method='post')
+		form(action='/user/register' method='post')
 			if !userDocs._id
 				h2 Sign up / Register
 			else
@@ -22,5 +22,5 @@ include ../admin-header.pug
 				input#password.form-control(type='password' name='password' placeholder='Enter password' value=(userDocs._id ? userDocs.password : ''))
 			input.form-control(type='hidden' name='hidden_user_id' value=(userDocs._id ? userDocs._id : ''))
 			button.btn.btn-primary.btn-moveunit(type='submit') Submit
-			a(href='/user/list')
-				button.btn(type='button') Cancel
+			a.btn-redirect(href='/user/list')
+				button.btn.btn-warning(type='button') Sign in

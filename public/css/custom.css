@@ -29,3 +29,13 @@
 .add-bottom-space{
 	margin-bottom: 10px;
 }
+a.btn-redirect .btn-block{
+	margin-top: .5rem;
+}
+a.btn-redirect{
+	text-decoration: none;
+}
+.login-page a.btn-redirect .btn, .login-page a.btn-redirect .btn:hover, .register-page a.btn-redirect .btn, .register-page a.btn-redirect .btn:hover {
+	color: #ffffff;
+	text-decoration: none;
+}

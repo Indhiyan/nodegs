@@ -34,7 +34,7 @@ var userController = function(req, res) {
 	   	} else {
 		    req.session.success = true;
 
-		    Q(userModel.addUser(req.body))
+		    Q(userModel.addUser(req, res))
 			.done(function (result) {
 		    	if (result['status'] == 'ok') {
 		    		if (!req.body.hidden_user_id)
