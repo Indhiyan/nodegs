@@ -36,6 +36,6 @@ a.btn-redirect{
 	text-decoration: none;
 }
 .login-page a.btn-redirect .btn, .login-page a.btn-redirect .btn:hover, .register-page a.btn-redirect .btn, .register-page a.btn-redirect .btn:hover {
-	color: #ffffff;
+	color: #000000;
 	text-decoration: none;
 }
