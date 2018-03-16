@@ -1,11 +1,8 @@
 var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var bodyParser = require('body-parser');
 var multer = require('multer');
 var router = express.Router();
-// var bodyParser = require("body-parser");
-// var userModel = require('../models/user');
 var pathConfig = require('../config/path-config');
 var userController = require('../controllers/user');
 
