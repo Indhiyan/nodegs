@@ -1,20 +1,17 @@
 var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var multer = require('multer');
 var router = express.Router();
 // var bodyParser = require("body-parser");
 // var userModel = require('../models/user');
+var pathConfig = require('../config/path-config');
 var userController = require('../controllers/user');
 
 // Login form
 router.get('/login', function (req, res) {
   	res.render('login');
 });
-
-// Login form
-// router.post('/login', function (req, res) {
-//   	userController.login(req, res);
-// });
 
 /* Authentication & Success & Failure callback */
 router.post('/login',
@@ -81,6 +78,34 @@ router.get('/delete/:id', authenticated, function (req, res) {
 // 400 page route.
 router.get('/*', function (req, res) {
   res.render('400');
+});
+
+/* File upload */
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, pathConfig.publicDirPath + '/uploads');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + '.png');
+    }
+});
+
+var upload = multer({ storage: storage }).single('fileToUpload');
+
+router.get('/upload', function (req, res) {
+    res.render('user/fileupload');
+});
+
+router.post('/upload', function (req, res) {
+    upload(req, res, function (err) {
+        if (err) {
+          // An error occurred when uploading 
+          res.json({success: false, message: 'File not uploaded!'});
+        }
+        res.json({success: true, message: 'File uploaded!'});
+ 
+        // Everything went fine 
+    });
 });
 
 module.exports = router;
