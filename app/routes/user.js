@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var bodyParser = require('body-parser');
 var multer = require('multer');
 var router = express.Router();
 // var bodyParser = require("body-parser");
@@ -55,10 +56,33 @@ router.get('/add', authenticated, function (req, res) {
 	 res.render('user/add', {userDocs: ''});
 });
 
-// Add new user
-router.post('/add', authenticated, function (req, res) {
-	 userController.addUser(req, res);
+/* File upload */
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, pathConfig.publicDirPath + '/uploads');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + '.png');
+    }
 });
+
+var photoUpload = multer({ storage: storage }).single('photo');
+
+router.post('/add', authenticated, function (req, res) {
+    
+    photoUpload(req, res, function (err) {
+        if (err) {
+          // An error occurred when uploading 
+          userController.addUser(req, res);
+        }
+        userController.addUser(req, res);
+    });
+});
+
+// // Add new user
+// router.post('/add', authenticated, function (req, res) {
+// 	 userController.addUser(req, res);
+// });
 
 // Edit user form
 router.get('/edit/:id', authenticated, function (req, res) {
@@ -80,32 +104,32 @@ router.get('/*', function (req, res) {
   res.render('400');
 });
 
-/* File upload */
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, pathConfig.publicDirPath + '/uploads');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + '.png');
-    }
-});
+// /* File upload */
+// var fileStorage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, pathConfig.publicDirPath + '/uploads');
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + '.png');
+//     }
+// });
 
-var upload = multer({ storage: storage }).single('fileToUpload');
+// var upload = multer({ storage: fileStorage }).single('fileToUpload');
 
-router.get('/upload', function (req, res) {
-    res.render('user/fileupload');
-});
+// router.get('/upload', function (req, res) {
+//     res.render('user/fileupload');
+// });
 
-router.post('/upload', function (req, res) {
-    upload(req, res, function (err) {
-        if (err) {
-          // An error occurred when uploading 
-          res.json({success: false, message: 'File not uploaded!'});
-        }
-        res.json({success: true, message: 'File uploaded!'});
+// router.post('/upload', function (req, res) {
+//     upload(req, res, function (err) {
+//         if (err) {
+//           // An error occurred when uploading 
+//           res.json({success: false, message: 'File not uploaded!'});
+//         }
+//         res.json({success: true, message: 'File uploaded!'});
  
-        // Everything went fine 
-    });
-});
+//         // Everything went fine 
+//     });
+// });
 
 module.exports = router;

@@ -6,7 +6,7 @@ include ../admin-header.pug
 				.alert.alert-danger.alert-dismissible
 					button.close(type='button' data-dismiss='alert') &times;
 					.info= error.msg
-		form(action='/user/add' method='post')
+		form(action='/user/add' method='post' enctype='multipart/form-data')
 			if !userDocs._id
 				h2 Sign up / Register
 			else
@@ -20,6 +20,9 @@ include ../admin-header.pug
 			.form-group
 				label(for='password') Password:
 				input#password.form-control(type='password' name='password' placeholder='Enter password' value=(userDocs._id ? userDocs.password : ''))
+			.form-group
+				label(for='photo') Profile image:
+				input#photo.form-control(type='file' name='photo')
 			input.form-control(type='hidden' name='hidden_user_id' value=(userDocs._id ? userDocs._id : ''))
 			button.btn.btn-primary.btn-moveunit(type='submit') Submit
 			a(href='/user/list')

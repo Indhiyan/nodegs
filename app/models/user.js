@@ -21,9 +21,12 @@ var UserSchema = mongoose.Schema({
 		required: true
 	},
 	password: {
+		// type: String,
+		// required: true
+	},
+	photo: {
 		type: String,
-		email: true,
-		required: true
+		// required: true
 	}
 });
 
@@ -64,10 +67,10 @@ passport.use(new LocalStrategy({
 /* Login authentication - End */
 
 module.exports.addUser = function(req, res) {
-	
+
 	var deferred = Q.defer();
 	var userReqData = req.body;
-	var userData = { name: userReqData.name, email: userReqData.email, password: userReqData.password }	
+	var userData = { name: userReqData.name, email: userReqData.email, password: userReqData.password, photo: (req.file) ? req.file.filename : "" }	
 	var user = new userModel(userData);
 	
 	if (!userReqData.hidden_user_id) {

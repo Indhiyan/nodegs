@@ -7,7 +7,7 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var expressValidator = require('express-validator');
 var passport = require('passport');
-LocalStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 var indexRoute = require('./app/routes');
 var userRoute = require('./app/routes/user');
