@@ -70,10 +70,22 @@ module.exports.addUser = function(req, res) {
 
 	var deferred = Q.defer();
 	var userReqData = req.body;
-	var userData = { name: userReqData.name, email: userReqData.email, password: userReqData.password, photo: (req.file) ? req.file.filename : "" }	
+	var userPhoto = null;
+	var userData = { 
+		name: userReqData.name, 
+		email: userReqData.email, 
+		password: userReqData.password
+		// photo: (req.file) ? req.file.filename : "" 
+	}	
 	var user = new userModel(userData);
 	
 	if (!userReqData.hidden_user_id) {
+
+		if (req.file)
+			Object.assign(userData, { photo: req.file.filename });
+		else
+			Object.assign(userData, { photo: "" });
+
 		user.save(function (err, userDocs) {
 
 			// Use resolve and reject when using .then and .catch in controller
@@ -95,6 +107,13 @@ module.exports.addUser = function(req, res) {
 	    });
 	} else {
 		
+		if (req.file)
+			Object.assign(userData, { photo: req.file.filename });
+		else if (req.body.hidden_photo)
+			Object.assign(userData, { photo: req.body.hidden_photo });
+		else
+			Object.assign(userData, { photo: "" });
+
 		userModel.findByIdAndUpdate(userReqData.hidden_user_id, userData, {new: true}, function (err, userDocs) {
 
 			// Use resolve and reject when using .then and .catch in controller

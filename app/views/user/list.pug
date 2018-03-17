@@ -23,7 +23,8 @@ include ../admin-header.pug
 						th id
 						th name
 						th email
-						th password
+						// th password
+						th photo
 						th action
 				tbody
 				if listData.length > 0
@@ -32,7 +33,9 @@ include ../admin-header.pug
 							td= val._id
 							td= val.name
 							td= val.email
-							td= val.password
+							// td= val.password
+							td 
+								img.list-img-style(src=(val.photo) ? '/uploads/' + val.photo : '/images/nophoto.png' )
 							td
 								a(href='edit/'+val._id)
 									button.btn.listdoc-btnaction(type='button') edit

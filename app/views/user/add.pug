@@ -23,7 +23,11 @@ include ../admin-header.pug
 			.form-group
 				label(for='photo') Profile image:
 				input#photo.form-control(type='file' name='photo')
+			if (userDocs.photo)
+				.form-group
+					img.add-img-style(src=(userDocs.photo) ? '/uploads/' + userDocs.photo : '' )
 			input.form-control(type='hidden' name='hidden_user_id' value=(userDocs._id ? userDocs._id : ''))
+			input.form-control(type='hidden' name='hidden_photo' value=(userDocs.photo ? userDocs.photo : ''))
 			button.btn.btn-primary.btn-moveunit(type='submit') Submit
 			a(href='/user/list')
 				button.btn(type='button') Cancel

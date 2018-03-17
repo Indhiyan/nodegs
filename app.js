@@ -22,7 +22,6 @@ db.once("open", function(callback) {
 });
 
 var app = express();
-var sessionStore = new session.MemoryStore;
 /* BodyParser Middleware */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,11 +33,13 @@ app.set("views", pathConfig.appDirPath +  "/views");
 app.set('view engine', 'pug');
 
 app.use(cookieParser('secret'));
+var sessionStore = new session.MemoryStore;
 app.use(session({
-    cookie: { maxAge: 60000 },
-    store: sessionStore,
+    cookie: { maxAge: 180000 },
+    // store: sessionStore,
     saveUninitialized: true,
-    resave: 'true',
+    resave: false,
+    rolling: true,
     secret: 'secret'
 }));
 // if (app.get('env') === 'production') {

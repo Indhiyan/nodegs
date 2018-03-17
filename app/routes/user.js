@@ -35,7 +35,6 @@ router.get('/logout', function(req, res){
 
 // Authentication or Session check
 function authenticated(req, res, next) {
-  // console.log("authenticated", req.user);
     if (req.user) {
         next();
     } else {
